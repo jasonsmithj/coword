@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+      <form action="/word_cloud" method="get" class="form-inline">
+        <button type="submit" class="btn btn-primary btn-block active" >Word Cloud</button>
+      </form>
+      <br>
+      <form action="/article" method="get" class="form-inline">
+        <button type="submit" class="btn btn-primary btn-block active" >Article</button>
+      </form>
+    </div>
+{% endblock %}

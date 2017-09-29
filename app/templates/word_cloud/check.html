@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block head %}
+<script type="text/javascript" src="{{ url_for('static', filename='javascripts/jquery.blockUI.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascripts/wait.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascripts/double.js') }}"></script>
+{% endblock %}
+{% block body %}
+<div class="container">
+  <div class="jumbotron">
+    <p>検索ワード  ：{{ searchword }}</p>
+    {% if engine == "google" %}
+      <p>検索エンジン：Google</p>
+    {% elif engine == "google_news" %}
+      <p>検索エンジン：Google News</p>
+    {% else %}
+      <p>検索エンジン：None</p>
+    {% endif %}
+
+  </div>
+  <br>
+  <form action="/word_cloud/result" method="get">
+    <input type="hidden" name="searchword" value="{{ searchword }}">
+    <input type="hidden" name="engine" value="{{ engine }}">
+    <button type="submit" class="btn btn-primary btn-block active" id="process" onClick="javascript:double(this)">Import into ElasticSearc</button>
+  </form>
+  <br>
+  <form action="/word_cloud" method="get">
+    <button type="submit" class="btn btn-primary btn-block active" onClick="javascript:double(this)">戻る</button>
+  </form>
+</div>
+{% endblock %}

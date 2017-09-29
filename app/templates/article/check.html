@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block head %}
+<script type="text/javascript" src="{{ url_for('static', filename='javascripts/jquery.blockUI.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascripts/wait.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascripts/double.js') }}"></script>
+{% endblock %}
+{% block body %}
+<div class="container">
+  <div class="jumbotron">
+    <p>File Name  ：{{ filename }}</p>
+    <p>URL  ：</p>
+    <p>{{ url }}</p>
+  </div>
+  <br>
+  <form action="/article/result" method="get">
+    <input type="hidden" name="filename" value="{{ filename }}">
+    <button type="submit" class="btn btn-primary btn-block active" id="process" onClick="javascript:double(this)">Import into ElasticSearch</button>
+  </form>
+  <br>
+  <form action="/article" method="get">
+    <button type="submit" class="btn btn-primary btn-block active" onClick="javascript:double(this)">戻る</button>
+  </form>
+</div>
+{% endblock %}

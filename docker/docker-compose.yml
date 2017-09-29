@@ -1,0 +1,44 @@
+version: '2'
+
+services:
+  elasticsearch:
+    image: elasticsearch:latest
+    build: elasticsearch
+    hostname: elasticsearch
+    networks:
+      coword:
+        ipv4_address: 172.122.6.170
+    container_name: elasticsearch
+    ports:
+      - 8080:5601
+      - 9200:9200
+  redis:
+    image: redis:4.0.2
+    hostname: redis
+    networks:
+      coword:
+        ipv4_address: 172.122.6.172
+    container_name: redis
+    ports:
+      - 6379:6379
+  coword:
+    image: coword:latest
+    build: coword
+    hostname: coword
+    networks:
+      coword:
+        ipv4_address: 172.122.6.171
+    container_name: coword
+    volumes:
+      - /Users/www/:/var/www/
+    ports:
+      - 80:3000
+
+networks:
+  coword:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.122.0.0/16
+        gateway: 172.122.0.1

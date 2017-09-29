@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block head %}
+<script type="text/javascript" src="{{ url_for('static', filename='javascripts/jquery.validate.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascripts/dropdown.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascripts/textcheck.js') }}"></script>
+{% endblock %}
+{% block body %}
+<div class="container">
+  <form action="/word_cloud/check" id="check" method="get">
+    <div class="form-group" class="col-sm-10">
+      <label>Search Word</label>
+      <input type="text" name="searchword" placeholder="Japan USA" class="form-control">
+    </div>
+
+    <label>Search Engine</label>
+    <br>
+    <select id="engine" class="selectpicker" name="engine">
+      <option value="google" selected>Google</option>
+      <option value="google_news" >Google News</option>
+    </select>
+
+    <div class="submit">
+    <br>
+      <button type="submit" class="btn btn-primary btn-block active">Confirm</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

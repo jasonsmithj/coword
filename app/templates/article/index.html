@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block head %}
+<script type="text/javascript" src="{{ url_for('static', filename='javascripts/upfile.js') }}"></script>
+{% endblock %}
+{% block body %}
+<div class="container">
+  <form action="/article/check" id="check" method="post" enctype="multipart/form-data">
+
+    <div class="input-group">
+      <label class="input-group-btn">
+        <span class="btn btn-primary">
+            Choose File<input type="file" name="file_name" style="display:none">
+        </span>
+      </label>
+      <input type="text" class="form-control" readonly="">
+    </div>
+
+    <br>
+
+    <div class="submit">
+      <button type="submit" class="btn btn-primary btn-block active">Confirm</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
