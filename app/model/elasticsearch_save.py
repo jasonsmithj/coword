@@ -7,13 +7,14 @@ import sys
 
 class ElasticsearchSave():
 
+    def __init__(self):
+        self.es = Elasticsearch(app.config['ELASTICSEARCH_ENDPOINT'], port=app.config['ELASTICSEARCH_PORT'], timeout = 180)
 
     def save(self, actions):
         try:
-            es = Elasticsearch(app.config['ELASTICSEARCH_ENDPOINT'], port=app.config['ELASTICSEARCH_PORT'], timeout = 180)
-            helpers.bulk(es, actions, request_timeout = 180)
+            self.es = Elasticsearch(app.config['ELASTICSEARCH_ENDPOINT'], port=app.config['ELASTICSEARCH_PORT'], timeout = 180)
+            helpers.bulk(self.es, actions, request_timeout = 180)
         except Exception as e:
-            app.logger.info(actions)
             app.logger.error(e.args)
             raise
 
@@ -24,9 +25,9 @@ class ElasticsearchSave():
             }
         }
 
-        es = Elasticsearch(app.config['ELASTICSEARCH_ENDPOINT'], port=app.config['ELASTICSEARCH_PORT'], timeout = 180)
+        self.es = Elasticsearch(app.config['ELASTICSEARCH_ENDPOINT'], port=app.config['ELASTICSEARCH_PORT'], timeout = 180)
         try:
-            es.indices.put_settings(index=index, body=settings)
+            self.es.indices.put_settings(index=index, body=settings)
         except:
-            es.indices.create(index=index)
-            es.indices.put_settings(index=index, body=settings)
+            self.es.indices.create(index=index)
+            self.es.indices.put_settings(index=index, body=settings)
