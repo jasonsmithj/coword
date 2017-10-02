@@ -3,13 +3,14 @@
 from app import app
 from app.view.word_cloud import WordSearch
 from app.view.article import Article
+from app.view.reports import Reports
 
 from flask import Flask, Blueprint, render_template, jsonify, abort, request
 
 application = Blueprint('routes', __name__,template_folder='templates')
 
 @application.route("/", methods=['GET'])
-def hello():
+def coword_index():
     return render_template('index.html')
 
 @application.route("/word_cloud/", methods=['GET'])
@@ -18,17 +19,16 @@ def word_cloud():
 
 @application.route("/word_cloud/check", methods=['GET'])
 def word_cloud_check():
-    searchword = request.args.get('searchword')
-    engine = request.args.get('engine')
-    return render_template('word_cloud/check.html', searchword=searchword, engine=engine)
+    return render_template('word_cloud/check.html',
+        searchword = request.args.get('searchword'),
+        engine = request.args.get('engine')
+    )
 
 @application.route("/word_cloud/result", methods=['GET'])
 def word_cloud_result():
-    searchword = request.args.get('searchword')
-    engine = request.args.get('engine')
     word_seach = WordSearch()
-    result = word_seach.search(searchword, engine)
-    return render_template('word_cloud/result.html', result=result)
+    result = word_seach.search(request.args.get('searchword'), request.args.get('engine'))
+    return render_template('word_cloud/result.html', result = result)
 
 @application.route("/article", methods=['GET'])
 def article():
@@ -44,7 +44,7 @@ def articl_checke():
     except Exception as e:
         app.logger.info(e)
         return render_template('article/result.html', result='Faild')
-    return render_template('article/check.html', filename=the_file.filename, url=article_url)
+    return render_template('article/check.html', filename = the_file.filename, url = article_url)
 
 @application.route("/article/result", methods=['GET'])
 def article_result():
@@ -53,7 +53,35 @@ def article_result():
     article_url = article.csv_to_url(filename)
     result = article.create_record(article_url)
     article.delete_file(filename)
-    return render_template('word_cloud/result.html', result=result)
+    return render_template('word_cloud/result.html', result = result)
+
+@application.route("/reports", methods=['GET'])
+def reports():
+    return render_template('reports/index.html')
+
+@application.route("/reports/check", methods=['GET'])
+def reports_check():
+    return render_template('reports/check.html',
+        searchword = request.args.get('searchword'),
+        starttime = request.args.get('starttime'),
+        endtime = request.args.get('endtime'),
+        engine = request.args.getlist('engine')
+    )
+
+@application.route("/reports/result", methods=['GET'])
+def reports_result():
+    searchword = request.args.get('searchword')
+    starttime = request.args.get('starttime')
+    endtime = request.args.get('endtime')
+    engine = request.args.getlist('engine')
+    return render_template('reports/result.html', result = result)
+
+@application.route("/reports/download", methods=['GET'])
+def reports_download():
+    filename = request.args.get('filename')
+    response.content_type = "application/octet-stream"
+    response.headers["Content-Disposition"] = "attachment; filename=$filename"
+    return stream.getvalue().encode("utf8")
 
 @application.errorhandler(400)
 def bad_request(error):

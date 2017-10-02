@@ -5,7 +5,7 @@ from app.model.search import Search
 from app.model.morphological_analysis import MorphologicalAnalysis
 from app.model.search_result import SearchResult
 from app.model.csv_to_url import CsvToUrl
-from app.model.elasticsearch_save import ElasticsearchSave
+from app.model.elasticsearch import ElasticSearch
 
 import os
 import sys
@@ -22,13 +22,13 @@ class Article():
         morphological_analysis = MorphologicalAnalysis()
         search = Search()
         search_result = SearchResult()
-        elasticsearch_save = ElasticsearchSave()
+        elasticsearch = ElasticSearch()
         engine = 'article'
 
         index_names = ['article_result', 'count_article_result', 'original_article_result']
 
         for index_name in index_names:
-            elasticsearch_save.put_setting(index_name)
+            elasticsearch.put_setting(index_name)
 
         actions = []
         count_actions = []
@@ -48,7 +48,7 @@ class Article():
             if i % 10 == 0 :
                 try:
                     for action in [actions, count_actions, original_actions]:
-                        elasticsearch_save.save(action)
+                        elasticsearch.save(action)
                 except Exception as e:
                     app.logger.error(e.args)
                     return (e.args)

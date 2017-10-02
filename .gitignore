@@ -4,6 +4,7 @@ lib/
 lib64
 logs/*
 tmp/*
+download/*
 !.keep
 __pycache__/
 .env

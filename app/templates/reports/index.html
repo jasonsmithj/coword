@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container">
+  <form action="/reports/check" id="check" method="get">
+    <h1>Reports</h1>
+    <br>
+    <div class="form-group">
+      <label>Search Word</label>
+      <input type="text" name="searchword" placeholder="Japan USA" class="form-control">
+    </div>
+
+    <div class="search-engine">
+      <label>Search Engine</label>
+      <br>
+      <label class="checkbox-inline"><input type="checkbox" name="engine" value="google">Google</label>
+      <label class="checkbox-inline"><input type="checkbox" name="engine" value="google_news">Google News</label>
+    </div>
+
+    <div class="start-time" style="position: relative">
+      <br>
+      <label>Start Time</label>
+      <br>
+      <input type="text" name="starttime" id="datetimepicker1"/>
+    </div>
+    <div class="end-time" style="position: relative">
+      <br>
+      <label>End Time</label>
+      <br>
+      <input type="text" name="endtime" id="datetimepicker2"/>
+    </div>
+
+    <div class="submit">
+    <br>
+      <button type="submit" class="btn btn-primary btn-block active">Confirm</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

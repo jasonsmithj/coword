@@ -1,9 +1,4 @@
 {% extends "layout.html" %}
-{% block head %}
-<script type="text/javascript" src="{{ url_for('static', filename='javascripts/jquery.validate.min.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='javascripts/dropdown.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='javascripts/textcheck.js') }}"></script>
-{% endblock %}
 {% block body %}
 <div class="container">
   <form action="/word_cloud/check" id="check" method="get">

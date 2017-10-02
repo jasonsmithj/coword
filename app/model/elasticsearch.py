@@ -5,7 +5,7 @@ from elasticsearch import Elasticsearch, helpers
 
 import sys
 
-class ElasticsearchSave():
+class ElasticSearch():
 
 
     def save(self, actions):
@@ -30,3 +30,25 @@ class ElasticsearchSave():
         except:
             es.indices.create(index=index)
             es.indices.put_settings(index=index, body=settings)
+
+    def search(self, keyword, engine, starttime, endtime):
+
+        query = {
+            "query": {
+                "bool" : {
+                    "must" : [
+                        {"match":{"engine": "google"}},
+                        {"match" : {"key_word" : keyword}},
+                        {"range" : {"created_at" : {"gte": starttime, "lte": endtime}}}
+                    ]
+                }
+            },
+            "_source" : {
+                "excludes": ["key_word", "url", "engine", "created_at"]
+            },
+            "size": 200,
+            "from":1
+            }
+        # ここに検索
+        return (word)
+
