@@ -7,6 +7,12 @@ $(function() {
     rules: {
       'searchword': {
         required: true
+      },
+      'starttime': {
+        required: true
+      },
+      'endtime': {
+        required: true
       }
     },
     showErrors: function(errorMap, errorList) {

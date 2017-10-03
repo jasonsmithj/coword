@@ -21,6 +21,5 @@ class CsvToUrl():
             app.logger.error(e.args)
             raise
 
-        app.logger.info(val)
         return val
 
