@@ -36,4 +36,5 @@ class CommonConfig(object):
     GOOGLE_CX = os.environ.get("GOOGLE_CX")
 
     TMP_PATH = os.path.join(os.path.dirname(__file__), 'tmp/')
+    DOWNLOAD_PATH = os.path.join(os.path.dirname(__file__), 'download/')
 

@@ -7,13 +7,13 @@ import sys
 
 class ElasticSearch():
 
+    def __init__(self):
+        self.es = Elasticsearch(app.config['ELASTICSEARCH_ENDPOINT'], port=app.config['ELASTICSEARCH_PORT'], timeout = 180)
 
     def save(self, actions):
         try:
-            es = Elasticsearch(app.config['ELASTICSEARCH_ENDPOINT'], port=app.config['ELASTICSEARCH_PORT'], timeout = 180)
-            helpers.bulk(es, actions, request_timeout = 180)
+            helpers.bulk(self.es, actions, request_timeout = 180)
         except Exception as e:
-            app.logger.info(actions)
             app.logger.error(e.args)
             raise
 
@@ -24,31 +24,86 @@ class ElasticSearch():
             }
         }
 
-        es = Elasticsearch(app.config['ELASTICSEARCH_ENDPOINT'], port=app.config['ELASTICSEARCH_PORT'], timeout = 180)
+        mapping = {
+          "common": {
+            "properties": {
+              "created_at": {
+                "format" : "YYYY-MM-dd HH:mm:ss","type" : "date"
+              }
+            }
+          }
+        }
+
         try:
-            es.indices.put_settings(index=index, body=settings)
+            self.es.indices.put_settings(index=index, body=settings)
+            self.es.indices.put_mapping(index=index, doc_type='common', body=mapping)
         except:
-            es.indices.create(index=index)
-            es.indices.put_settings(index=index, body=settings)
+            self.es.indices.create(index=index)
+            self.es.indices.put_settings(index=index, body=settings)
+            self.es.indices.put_mapping(index=index, doc_type='common', body=mapping)
 
-    def search(self, keyword, engine, starttime, endtime):
+    def search(self, keyword, engines, starttime, endtime):
 
-        query = {
+        engn = []
+        for engine in engines:
+            engn.append(str(engine).lstrip('[\'').rstrip('\']'))
+
+
+        if len(engn) == 1:
+            query = {
             "query": {
-                "bool" : {
+              "bool" : {
+                "must" : [
+                  {"match":{"engine": engn[0]}},
+                  {"match" : {"key_word" : keyword}},
+                  {"range" : {"created_at" : {"from": starttime, "to": endtime}}}
+                ]
+              }
+            },
+              "_source" : {
+                "excludes": ["key_word", "url", "engine", "created_at"]
+              },
+              "size": 200,
+              "from":1
+            }
+        else:
+            query = {
+            "query": {
+              "bool": {
+                "should":[
+                {
+                  "bool": {
                     "must" : [
-                        {"match":{"engine": "google"}},
-                        {"match" : {"key_word" : keyword}},
-                        {"range" : {"created_at" : {"gte": starttime, "lte": endtime}}}
+                      {"match":{"engine": engn[0]}},
+                      {"match" : {"key_word" : keyword}},
+                      {"range" : {"created_at" : {"from": starttime, "to": endtime}}}
+                      ]
+                  }
+                },
+                {
+                  "bool": {
+                    "must" : [
+                      {"match":{"engine": engn[1]}},
+                      {"match" : {"key_word" : keyword}},
+                      {"range" : {"created_at" : {"from": starttime, "to": endtime}}}
                     ]
+                  }
                 }
+                ]
+              }
             },
             "_source" : {
-                "excludes": ["key_word", "url", "engine", "created_at"]
+              "excludes": ["key_word", "url", "engine", "created_at"]
             },
             "size": 200,
             "from":1
             }
-        # ここに検索
-        return (word)
+
+        try:
+            res = self.es.search(index="count_search_result", body=query)
+        except Exception as e:
+            app.logger.error(e.args)
+            raise
+
+        return (res)
 

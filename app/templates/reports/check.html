@@ -9,10 +9,10 @@
   </div>
   <br>
   <form action="/reports/result" method="get">
-    <input type="hidden" name="filename" value="{{ searchword }}">
-    <input type="hidden" name="filename" value="{{ engine }}">
-    <input type="hidden" name="filename" value="{{ starttime }}">
-    <input type="hidden" name="filename" value="{{ endtime }}">
+    <input type="hidden" name="searchword" value="{{ searchword }}">
+    <input type="hidden" name="engine" value="{{ engine }}">
+    <input type="hidden" name="starttime" value="{{ starttime }}">
+    <input type="hidden" name="endtime" value="{{ endtime }}">
     <button type="submit" class="btn btn-primary btn-block active" id="process" onClick="javascript:double(this)">Import into ElasticSearch</button>
   </form>
   <br>

@@ -3,19 +3,29 @@
 from app import app
 from app.model.search import Search
 from app.model.elasticsearch import ElasticSearch
-from app.model.reports import Reports
+from app.model.report import Report
 from app.model.file import File
 
+import re
 
 class Reports():
 
-    def create(self):
-        
-        headers = """
-        検索エンジン	$engine
-        検索ワード	$keyword
-        created_at	$starttime 〜 $endtime
-        """
+    def create(self, searchword, engine, starttime, endtime):
+        es = ElasticSearch()
+        reports = Report()
+        files = File()
 
-        return filename
+        body = es.search(searchword, engine, starttime, endtime)
+
+        search_engine = ','.join(engine)
+        headers = ('検索エンジン : ' + str(search_engine).lstrip('[\'').rstrip('\']').replace("'", '') + '\n')
+        headers += ('検索ワード : ' + searchword + '\n')
+        headers += ('created_at : ' + starttime + ' 〜 ' + endtime + '\n')
+        headers += ('記事数 : ' + reports.article_count(body) + '\n')
+        headers += ('\n')
+        headers += ('word\tcount\n')
+
+        #return filename
+        return (files.file_format(headers, reports.create_report(body))
+)
 

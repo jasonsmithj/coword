@@ -1,12 +1,8 @@
 {% extends "layout.html" %}
 {% block body %}
-<form>
-  {% if result == "Success" %}
-    <div class="alert alert-success" role="alert">{{ result }}</div>
-  {% elif result == "Faild" %}
-    <div class="alert alert-danger" role="alert">{{ result }}</div>
-  {% else %}
-    <div class="alert alert-warning" role="alert">{{ result }}</div>
-  {% endif %}
+<form action="/reports/download" method="get">
+  <div class="alert alert-success" role="alert">{{ result }}</div>
+    <input type="hidden" name="filename" value="{{ result }}">
+    <button type="submit" class="btn btn-primary btn-block active">Download</button>
 </form>
 {% endblock %}

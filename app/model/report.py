@@ -7,7 +7,7 @@ import glob
 import json
 import re
 
-class Reports():
+class Report():
 
     def create_report(self, data):
         def int_chk(my_str):
@@ -18,8 +18,6 @@ class Reports():
                 raise ValueError("{} cannot cast intger".format(str(my_str)))
 
         corpus_length = len(data['hits']['hits'])
-        print(corpus_length)
-
         count_data = {}
 
         for i in range(corpus_length):
@@ -33,8 +31,7 @@ class Reports():
                 else:
                     count_data[word_count['word']] = count_data.get(word_count['word'], 0) + int(word_count['count'])
 
+        return sorted(count_data.items(), key=lambda x: x[1], reverse=True)
 
-        return count_data
-
-    def article_count(self, date):
-        return date
+    def article_count(self, data):
+        return (str(data['hits']['total']))

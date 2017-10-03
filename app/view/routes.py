@@ -5,7 +5,7 @@ from app.view.word_cloud import WordSearch
 from app.view.article import Article
 from app.view.reports import Reports
 
-from flask import Flask, Blueprint, render_template, jsonify, abort, request
+from flask import Flask, Blueprint, render_template, jsonify, abort, request, send_from_directory
 
 application = Blueprint('routes', __name__,template_folder='templates')
 
@@ -65,23 +65,23 @@ def reports_check():
         searchword = request.args.get('searchword'),
         starttime = request.args.get('starttime'),
         endtime = request.args.get('endtime'),
-        engine = request.args.getlist('engine')
+        engine = str(request.args.getlist('engine')).lstrip('[\'').rstrip('\']').replace("'", '') 
     )
 
 @application.route("/reports/result", methods=['GET'])
 def reports_result():
-    searchword = request.args.get('searchword')
-    starttime = request.args.get('starttime')
-    endtime = request.args.get('endtime')
-    engine = request.args.getlist('engine')
+    reports = Reports()
+    result = reports.create(
+        request.args.get('searchword'),
+        request.args.getlist('engine'),
+        request.args.get('starttime'),
+        request.args.get('endtime'),
+    )
     return render_template('reports/result.html', result = result)
 
 @application.route("/reports/download", methods=['GET'])
 def reports_download():
-    filename = request.args.get('filename')
-    response.content_type = "application/octet-stream"
-    response.headers["Content-Disposition"] = "attachment; filename=$filename"
-    return stream.getvalue().encode("utf8")
+    return send_from_directory(directory=app.config['DOWNLOAD_PATH'], filename=request.args.get('filename'), as_attachment=True)
 
 @application.errorhandler(400)
 def bad_request(error):
