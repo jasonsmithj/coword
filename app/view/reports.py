@@ -10,12 +10,12 @@ import re
 
 class Reports():
 
-    def create(self, searchword, engine, starttime, endtime):
+    def create(self, searchword, engine, starttime, endtime, index):
         es = ElasticSearch()
         reports = Report()
         files = File()
 
-        body = es.search(searchword, engine, starttime, endtime)
+        body = es.search(searchword, engine, starttime, endtime, index)
 
         search_engine = ','.join(engine)
         headers = ('検索エンジン : ' + str(search_engine).lstrip('[\'').rstrip('\']').replace("'", '') + '\n')

@@ -42,7 +42,7 @@ class ElasticSearch():
             self.es.indices.put_settings(index=index, body=settings)
             self.es.indices.put_mapping(index=index, doc_type='common', body=mapping)
 
-    def search(self, keyword, engines, starttime, endtime):
+    def search(self, keyword, engines, starttime, endtime, index):
 
         engn = []
         for engine in engines:
@@ -100,7 +100,7 @@ class ElasticSearch():
             }
 
         try:
-            res = self.es.search(index="count_search_result", body=query)
+            res = self.es.search(index=('count_' + index + '_result'), body=query)
         except Exception as e:
             app.logger.error(e.args)
             raise

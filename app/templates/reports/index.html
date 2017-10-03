@@ -2,8 +2,6 @@
 {% block body %}
 <div class="container">
   <form action="/reports/check" id="check" method="get">
-    <h1>Reports</h1>
-    <br>
     <div class="form-group">
       <label>Search Word</label>
       <input type="text" name="searchword" placeholder="Japan USA" class="form-control">
@@ -14,6 +12,11 @@
       <br>
       <label class="checkbox-inline"><input type="checkbox" name="engine" value="google">Google</label>
       <label class="checkbox-inline"><input type="checkbox" name="engine" value="google_news">Google News</label>
+      <br>
+      <br>
+      <label>Choose Index Name</label>
+      <label class="checkbox"><input type="radio" name="index" value="search" checked="checked"> Word Cloud</label>
+      <label class="checkbox"><input type="radio" name="index" value="article"> Article</label>
     </div>
 
     <div class="start-time" style="position: relative">
