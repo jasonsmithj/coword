@@ -4,6 +4,7 @@
   <div class="jumbotron">
     <p>検索ワード  ：{{ searchword }} </p>
     <p>検索エンジン：{{ engine }} </p>
+    <p>検索インデックス：{{ index }} </p>
     <p>検索開始時間：{{ starttime }} </p>
     <p>検索終了時間：{{ endtime }} </p>
   </div>
@@ -13,6 +14,7 @@
     <input type="hidden" name="engine" value="{{ engine }}">
     <input type="hidden" name="starttime" value="{{ starttime }}">
     <input type="hidden" name="endtime" value="{{ endtime }}">
+    <input type="hidden" name="index" value="{{ index }}">
     <button type="submit" class="btn btn-primary btn-block active" id="process" onClick="javascript:double(this)">Import into ElasticSearch</button>
   </form>
   <br>

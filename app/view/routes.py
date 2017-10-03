@@ -65,6 +65,7 @@ def reports_check():
         searchword = request.args.get('searchword'),
         starttime = request.args.get('starttime'),
         endtime = request.args.get('endtime'),
+        index = request.args.get('index'),
         engine = str(request.args.getlist('engine')).lstrip('[\'').rstrip('\']').replace("'", '') 
     )
 
@@ -76,6 +77,7 @@ def reports_result():
         request.args.getlist('engine'),
         request.args.get('starttime'),
         request.args.get('endtime'),
+        request.args.get('index'),
     )
     return render_template('reports/result.html', result = result)
 
