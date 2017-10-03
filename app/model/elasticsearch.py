@@ -17,13 +17,7 @@ class ElasticSearch():
             app.logger.error(e.args)
             raise
 
-    def put_setting(self, index):
-        settings = {
-            "settings":{
-                "index.mapping.total_fields.limit": 1000000
-            }
-        }
-
+    def mapping(self, index):
         mapping = {
           "common": {
             "properties": {
@@ -33,16 +27,27 @@ class ElasticSearch():
             }
           }
         }
+        return self.es.indices.put_mapping(index=index, doc_type='common', body=mapping)
+
+    def put_setting(self, index):
+        elasti_cserch = ElasticSearch()
+        settings = {
+            "settings":{
+                "index.mapping.total_fields.limit": 1000000
+            }
+        }
+
 
         try:
             self.es.indices.put_settings(index=index, body=settings)
-            self.es.indices.put_mapping(index=index, doc_type='common', body=mapping)
+            elasti_cserch.mapping(index)
         except:
             self.es.indices.create(index=index)
             self.es.indices.put_settings(index=index, body=settings)
-            self.es.indices.put_mapping(index=index, doc_type='common', body=mapping)
+            elasti_cserch.mapping(index)
 
     def search(self, keyword, engines, starttime, endtime, index):
+        elasti_cserch = ElasticSearch()
 
         engn = []
         for engine in engines:
@@ -100,6 +105,7 @@ class ElasticSearch():
             }
 
         try:
+            elasti_cserch.mapping('count_' + index + '_result')
             res = self.es.search(index=('count_' + index + '_result'), body=query)
         except Exception as e:
             app.logger.error(e.args)
