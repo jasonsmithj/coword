@@ -22,6 +22,7 @@ class ElasticSearch():
           "common": {
             "properties": {
               "engine":     { "type": "text", "index" : "not_analyzed" },
+              "key_word":   { "type": "text", "index" : "not_analyzed" },
               "url":        { "type": "text", "index" : "not_analyzed" },
               "created_at": { "format" : "YYYY-MM-dd HH:mm:ss","type" : "date" }
             }
