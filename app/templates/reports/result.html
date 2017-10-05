@@ -1,8 +1,10 @@
 {% extends "layout.html" %}
 {% block body %}
-<form action="/reports/download" method="get">
-  <div class="alert alert-success" role="alert">{{ result }}</div>
-    <input type="hidden" name="filename" value="{{ result }}">
-    <button type="submit" class="btn btn-primary btn-block active">Download</button>
-</form>
+<div class="container">
+  <form action="/reports/download" method="get">
+    <div class="alert alert-success" role="alert">{{ result }}</div>
+      <input type="hidden" name="filename" value="{{ result }}">
+      <button type="submit" class="btn btn-primary btn-block active">Download</button>
+  </form>
+</div>
 {% endblock %}
