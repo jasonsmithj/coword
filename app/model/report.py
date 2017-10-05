@@ -12,8 +12,7 @@ class Report():
     def create_report(self, data):
         def int_chk(my_str):
             regex = r'[0-9]+'
-            r = re.compile(regex)
-            str_match = r.fullmatch(str(my_str))
+            str_match = re.compile(regex).fullmatch(str(my_str))
             if str_match == None:
                 raise ValueError("{} cannot cast intger".format(str(my_str)))
 
