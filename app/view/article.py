@@ -34,14 +34,10 @@ class Article():
         count_actions = []
         original_actions = []
         for i,url in enumerate(urls):
-            # 1URLから記事本文を取得
             body = search.scraping(url)
 
-            # raw_search_resultに格納する
             original_actions.append(search_result.article_original_record('original_article_result',  url,  body, now_date))
-            # 取得した本文から分かち書きを行い名詞のみ抽出
             key_word = morphological_analysis.parse(body)
-            # search_resultに格納する
             actions.append(search_result.article_ma_record('article_result',  url, key_word, now_date))
             count_actions.append(search_result.article_count_record('count_article_result',  url,  key_word, now_date))
 

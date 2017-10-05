@@ -8,6 +8,7 @@ from app.model.elasticsearch import ElasticSearch
 
 import sys
 from datetime import datetime
+from multiprocessing import Pool
 
 class WordSearch():
 
@@ -19,8 +20,6 @@ class WordSearch():
         search_result = SearchResult()
         elasticsearch = ElasticSearch()
 
-        # 検索ワードからgoogle custom searchを実行し、
-        # URLを取得
         if engine == 'google':
             urls = search.google_search(words)
         elif engine == 'google_news':
@@ -40,13 +39,9 @@ class WordSearch():
         count_actions = []
         original_actions = []
         for i,url in enumerate(urls):
-            # 1URLから記事本文を取得
             body = search.scraping(url)
-            # raw_search_resultに格納する
             original_actions.append(search_result.original_record('original_search_result', words, url, engine, body, now_date))
-            # 取得した本文から分かち書きを行い名詞のみ抽出
             key_word = morphological_analysis.parse(body)
-            # search_resultに格納する
             actions.append(search_result.ma_record('search_result', words, url, engine, key_word, now_date))
             count_actions.append(search_result.count_record('count_search_result', words, url, engine, key_word, now_date))
 

@@ -20,6 +20,7 @@ class File():
     def file_format(self, headers, bodys):
         files = File()
         report_str = headers
+        report_str += ('\n')
         for body in bodys:
             report_str += (body[0] + '\t' + str(body[1]) + '\n')
         return (files.save(report_str))

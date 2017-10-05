@@ -21,9 +21,9 @@ class ElasticSearch():
         mapping = {
           "common": {
             "properties": {
-              "created_at": {
-                "format" : "YYYY-MM-dd HH:mm:ss","type" : "date"
-              }
+              "engine":     { "type": "text", "index" : "not_analyzed" },
+              "url":        { "type": "text", "index" : "not_analyzed" },
+              "created_at": { "format" : "YYYY-MM-dd HH:mm:ss","type" : "date" }
             }
           }
         }
@@ -37,10 +37,8 @@ class ElasticSearch():
             }
         }
 
-
         try:
             self.es.indices.put_settings(index=index, body=settings)
-            elasti_cserch.mapping(index)
         except:
             self.es.indices.create(index=index)
             self.es.indices.put_settings(index=index, body=settings)
@@ -52,9 +50,8 @@ class ElasticSearch():
         engn = []
         for engine in engines:
             engn.append(str(engine).lstrip('[\'').rstrip('\']'))
-
-
         if len(engn) == 1:
+
             query = {
             "query": {
               "bool" : {
@@ -65,11 +62,9 @@ class ElasticSearch():
                 ]
               }
             },
-              "_source" : {
-                "excludes": ["key_word", "url", "engine", "created_at"]
-              },
-              "size": 200,
-              "from":1
+            "_source" : {
+              "excludes": ["key_word", "url", "engine", "created_at"]
+            }
             }
         else:
             query = {
@@ -99,9 +94,7 @@ class ElasticSearch():
             },
             "_source" : {
               "excludes": ["key_word", "url", "engine", "created_at"]
-            },
-            "size": 200,
-            "from":1
+            }
             }
 
         try:

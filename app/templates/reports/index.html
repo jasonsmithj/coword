@@ -3,32 +3,29 @@
 <div class="container">
   <form action="/reports/check" id="check" method="get">
     <div class="form-group">
-      <label>Search Word</label>
+      <legend>Search Word</legend>
       <input type="text" name="searchword" placeholder="Japan USA" class="form-control">
     </div>
 
     <div class="search-engine">
-      <label>Search Engine</label>
-      <br>
+      <legend>Search Engine</legend>
       <label class="checkbox-inline"><input type="checkbox" name="engine" value="google">Google</label>
       <label class="checkbox-inline"><input type="checkbox" name="engine" value="google_news">Google News</label>
       <br>
       <br>
-      <label>Choose Index Name</label>
+      <legend>Choose Index Name</legend>
       <label class="checkbox"><input type="radio" name="index" value="search" checked="checked"> Word Cloud</label>
       <label class="checkbox"><input type="radio" name="index" value="article"> Article</label>
     </div>
 
     <div class="start-time" style="position: relative">
       <br>
-      <label>Start Time</label>
-      <br>
+      <legend>Start Time</legend>
       <input type="text" name="starttime" id="datetimepicker1"/>
     </div>
     <div class="end-time" style="position: relative">
       <br>
-      <label>End Time</label>
-      <br>
+      <legend>End Time</legend>
       <input type="text" name="endtime" id="datetimepicker2"/>
     </div>
 

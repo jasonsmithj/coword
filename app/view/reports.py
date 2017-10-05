@@ -7,6 +7,7 @@ from app.model.report import Report
 from app.model.file import File
 
 import re
+import textwrap
 
 class Reports():
 
@@ -17,15 +18,16 @@ class Reports():
 
         body = es.search(searchword, engine, starttime, endtime, index)
 
-        search_engine = ','.join(engine)
-        headers = ('検索エンジン : ' + str(search_engine).lstrip('[\'').rstrip('\']').replace("'", '') + '\n')
-        headers += ('検索ワード : ' + searchword + '\n')
-        headers += ('created_at : ' + starttime + ' 〜 ' + endtime + '\n')
-        headers += ('記事数 : ' + reports.article_count(body) + '\n')
-        headers += ('\n')
-        headers += ('word\tcount\n')
+        search_engine = str(','.join(engine)).lstrip('[\'').rstrip('\']').replace("'", '')
+        headers = textwrap.dedent(f'''
+        Search Engine\t:\t{search_engine}
+        Search Word\t:\t{searchword}
+        Time Range\t:\t{starttime} ~ {endtime}
+        Article Count\t:\t{reports.article_count(body)}
 
-        #return filename
+        Word\tCount
+        ''').strip()
+
         return (files.file_format(headers, reports.create_report(body))
 )
 
