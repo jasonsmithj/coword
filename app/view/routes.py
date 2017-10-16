@@ -61,11 +61,15 @@ def reports():
 
 @application.route("/reports/check", methods=['GET'])
 def reports_check():
+    ngword = request.args.get('ngword')
+    ngwords = ngword.splitlines()
+
     return render_template('reports/check.html',
         searchword = request.args.get('searchword'),
         starttime = request.args.get('starttime'),
         endtime = request.args.get('endtime'),
         index = request.args.get('index'),
+        ngword = request.args.get('ngword'),
         engine = str(request.args.getlist('engine')).lstrip('[\'').rstrip('\']').replace("'", '') 
     )
 
@@ -78,6 +82,7 @@ def reports_result():
         request.args.get('starttime'),
         request.args.get('endtime'),
         request.args.get('index'),
+        request.args.get('ngword')
     )
     return render_template('reports/result.html', result = result)
 

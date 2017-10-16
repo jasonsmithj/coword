@@ -17,10 +17,13 @@ class File():
             raise
         return filename
 
-    def file_format(self, headers, bodys):
+    def file_format(self, headers, bodys, ngword):
         files = File()
+        ngwords = ngword.splitlines()
         report_str = headers
         report_str += ('\n')
+
         for body in bodys:
-            report_str += (body[0] + '\t' + str(body[1]) + '\n')
+            if not body[0] in ngwords:
+                report_str += (body[0] + '\t' + str(body[1]) + '\n')
         return (files.save(report_str))

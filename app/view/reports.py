@@ -11,7 +11,7 @@ import textwrap
 
 class Reports():
 
-    def create(self, searchword, engine, starttime, endtime, index):
+    def create(self, searchword, engine, starttime, endtime, index, ngword = '空前絶後のぉ！'):
         es = ElasticSearch()
         reports = Report()
         files = File()
@@ -28,6 +28,6 @@ class Reports():
         Word\tCount
         ''').strip()
 
-        return (files.file_format(headers, reports.create_report(body))
+        return (files.file_format(headers, reports.create_report(body), ngword)
 )
 
