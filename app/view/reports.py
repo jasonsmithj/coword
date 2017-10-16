@@ -2,7 +2,7 @@
 
 from app import app
 from app.model.search import Search
-from app.model.elasticsearch import ElasticSearch
+from app.model.elasticsearch.elasticsearch import ElasticSearch
 from app.model.report import Report
 from app.model.file import File
 

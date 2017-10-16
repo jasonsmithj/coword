@@ -5,7 +5,7 @@ from app.model.search import Search
 from app.model.morphological_analysis import MorphologicalAnalysis
 from app.model.search_result import SearchResult
 from app.model.csv_to_url import CsvToUrl
-from app.model.elasticsearch import ElasticSearch
+from app.model.elasticsearch.elasticsearch import ElasticSearch
 
 import os
 import sys

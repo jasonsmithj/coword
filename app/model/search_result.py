@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from elasticsearch import Elasticsearch, helpers
 from collections import Counter
 
 import sys

@@ -17,7 +17,7 @@ class ElasticSearch():
             app.logger.error(e.args)
             raise
 
-    def mapping(self, index):
+    def _mapping(self, index):
         mapping = {
           "common": {
             "properties": {
@@ -42,7 +42,7 @@ class ElasticSearch():
         except:
             self.es.indices.create(index=index)
             self.es.indices.put_settings(index=index, body=settings)
-            elasti_cserch.mapping(index)
+            elasti_cserch._mapping(index)
 
     def search(self, keyword, engines, starttime, endtime, index):
         elasti_cserch = ElasticSearch()
