@@ -43,7 +43,6 @@ def articl_checke():
         article_url = article.csv_to_url((app.config['TMP_PATH'] + the_file.filename))
     except Exception as e:
         app.logger.info(e)
-        return render_template('article/result.html', result='Faild')
     return render_template('article/check.html', filename = the_file.filename, url = article_url)
 
 @application.route("/article/result", methods=['GET'])
@@ -59,17 +58,24 @@ def article_result():
 def reports():
     return render_template('reports/index.html')
 
-@application.route("/reports/check", methods=['GET'])
+@application.route("/reports/check", methods=['POST'])
 def reports_check():
     ngword = request.args.get('ngword')
     ngwords = ngword.splitlines()
+
+    try:
+        the_file = request.files['file_name']
+        the_file.save(app.config['TMP_PATH'] + the_file.filename)
+    except Exception as e:
+        app.logger.error(e)
+
 
     return render_template('reports/check.html',
         searchword = request.args.get('searchword'),
         starttime = request.args.get('starttime'),
         endtime = request.args.get('endtime'),
         index = request.args.get('index'),
-        ngword = request.args.get('ngword'),
+        ngwordfile = request.args.get('the_file'),
         engine = str(request.args.getlist('engine')).lstrip('[\'').rstrip('\']').replace("'", '') 
     )
 

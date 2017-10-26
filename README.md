@@ -4,11 +4,11 @@
 共起語検索のためのデータ収集ツール
 
 ## 技術
-Python 3.6.1
-Flask
-mecab(ipadic-neologd)
-ES 5.5.2
-Google Custom Search API
+- Python 3.6.1  
+- Flask  
+- mecab(ipadic-neologd)  
+- ES 5.5.2  
+- Google Custom Search API  
 
 ## 開発環境構築
 
@@ -63,7 +63,7 @@ $ pip -r requirements.txt
 3. 起動(Docker)
 ```
 $ cd /var/www/coword
-$ FLASK_ENV python run.py
+$ FLASK_ENV=development python run.py
 ```
 
 ## 開発環境確認方法
