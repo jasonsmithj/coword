@@ -15,7 +15,7 @@ class CsvToUrl():
 
             val = []
             for i, row in df_new.iterrows():
-                val.append(str(row.values).lstrip('[\'').rstrip('\']'))
+                val.append(df.iat[i, 0])
 
         except Exception as e:
             app.logger.error(e.args)
